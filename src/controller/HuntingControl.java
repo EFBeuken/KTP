@@ -10,8 +10,11 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static java.lang.Math.round;
 
 
 public class HuntingControl extends Observable implements Observer {
@@ -29,6 +32,7 @@ public class HuntingControl extends Observable implements Observer {
     public LoadObjects loadObjects(){
         LoadObjects getObjects = new LoadObjects(null,null);
         getObjects.animalsList = loadAnimals();
+        getObjects.personsList = loadPersons();
         return getObjects;
     }
 
@@ -66,7 +70,8 @@ public class HuntingControl extends Observable implements Observer {
                     word = word.replace("main temp ", "");
                     float temp = Float.parseFloat(word);
                     temp -= 273.15;
-                    current.setTemperature(String.valueOf(temp));
+                    DecimalFormat df = new DecimalFormat("###.##");
+                    current.setTemperature(String.valueOf(df.format(temp)));
                 } else if (word.contains("wind speed")) {
                     word = word.replace("wind speed ", "");
                     current.setWindSpeed(word);
@@ -138,6 +143,36 @@ public class HuntingControl extends Observable implements Observer {
             System.out.print(ex);
         }
         return getAnimals;
+    }
+
+    public List<Person> loadPersons(){
+        List<Person> getPersons = new ArrayList<>();
+        try {
+            File folder = new File("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/person");
+            File[] listOfFiles = folder.listFiles();
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    String name = file.getName();
+                    BufferedReader br = new BufferedReader(new FileReader("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/person/" + name));
+                    String line = null;
+                    List<String> object = new ArrayList<>();
+                    while ((line = br.readLine()) != null) {
+                        object.add(line);
+                    }
+                    Person person = new Person(null, null, null, null, null, null);
+                    person.setName(object.get(0));
+                    person.setGun(object.get(1));
+                    person.setAmmunition(object.get(2));
+                    person.setEnergy(object.get(3));
+                    person.setDog(object.get(4));
+                    person.setDriven(object.get(5));
+                    getPersons.add(person);
+                }
+            }
+        } catch (Exception ex){
+            System.out.print(ex);
+        }
+        return getPersons;
     }
 
     public void update() {

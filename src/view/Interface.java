@@ -2,7 +2,7 @@ package view;
 
 import controller.HuntingControl;
 import model.Animal;
-import model.Location;
+import model.Person;
 import model.Weather;
 
 import javax.imageio.ImageIO;
@@ -78,7 +78,7 @@ public class Interface extends JPanel implements Observer {
             int w = img.getWidth(null);
             int h = img.getHeight(null);
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            g.drawImage(img, getWidth()*2/3, getHeight()-100, null);
+            g.drawImage(img, getWidth()-w, 0, null);
         } catch (Exception ex){
             System.out.println(ex);
         }
@@ -92,6 +92,16 @@ public class Interface extends JPanel implements Observer {
             String animalText = "";
             animalText = animal.getType() + " " + animal.getAvWeight() + "kg";
             g.drawString(animalText, 100, 300+(15*i));
+        }
+    }
+
+    public void paintPersons(Graphics g){
+        g.setColor(Color.black);
+        for (int i=0; i<control.objects.getPersonsList().size(); i++){
+            Person person = control.objects.getPersonsList().get(i);
+            String personText = "";
+            personText = person.getName() + " " + person.getGun();
+            g.drawString(personText, 200, 300+(15*i));
         }
     }
 
@@ -148,6 +158,7 @@ public class Interface extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         paintAnimals(g);
+        paintPersons(g);
         paintAdvice(g);
         paintWeather(g);
     }

@@ -18,7 +18,8 @@ public class NewProfile extends AbstractAction{
     }
 
     public void actionPerformed(ActionEvent e){
-        new NewProfileFrame().setVisible(true);
+        NewProfileFrame newProfile = new NewProfileFrame(control);
+        newProfile.setVisible(true);
         control.update();
     }
 

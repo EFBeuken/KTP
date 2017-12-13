@@ -10,11 +10,11 @@ import java.util.List;
 public class LoadObjects {
 
     public List<Animal> animalsList;
-    public List<Profile> profileList;
+    public List<Person> personsList;
 
-    public LoadObjects(List<Animal> animalsList, List<Profile> profileList) {
+    public LoadObjects(List<Animal> animalsList, List<Person> personsList) {
         this.animalsList = animalsList;
-        this.profileList = profileList;
+        this.personsList = personsList;
     }
 
 
@@ -26,12 +26,12 @@ public class LoadObjects {
         this.animalsList = animalsList;
     }
 
-    public List<Profile> getProfileList() {
-        return profileList;
+    public List<Person> getPersonsList() {
+        return personsList;
     }
 
-    public void setProfileList(List<Profile> profileList) {
-        this.profileList = profileList;
+    public void setPersonsList(List<Person> personsList) {
+        this.personsList = personsList;
     }
 }
 
