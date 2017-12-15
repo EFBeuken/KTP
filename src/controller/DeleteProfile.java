@@ -1,6 +1,8 @@
 package controller;
 
 import controller.HuntingControl;
+import view.DeleteProfileFrame;
+import view.NewProfileFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +22,8 @@ public class DeleteProfile extends AbstractAction{
     }
 
     public void actionPerformed(ActionEvent e){
-        int reply = JOptionPane.showConfirmDialog(null, "Profile", "Delete Profile", JOptionPane.OK_CANCEL_OPTION);
+        DeleteProfileFrame delProfile = new DeleteProfileFrame(control);
+        delProfile.setVisible(true);
         control.update();
     }
 
