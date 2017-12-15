@@ -22,7 +22,8 @@ public class NewAnimal extends AbstractAction{
     }
 
     public void actionPerformed(ActionEvent e){
-        new NewAnimalFrame().setVisible(true);
+        NewAnimalFrame newAnimal = new NewAnimalFrame(control);
+        newAnimal.setVisible(true);
         control.update();
     }
 

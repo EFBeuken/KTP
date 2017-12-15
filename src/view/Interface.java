@@ -10,19 +10,20 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Interface extends JPanel implements Observer {
+public class Interface extends JPanel implements Observer, ActionListener {
 
     private HuntingControl control;
+    JButton newLoc;
+    JTextField longField;
+    JTextField latField;
 
     public Interface(HuntingControl control){
         this.control = control;
@@ -30,6 +31,16 @@ public class Interface extends JPanel implements Observer {
         setBackground(Color.lightGray);
         setVisible(true);
         setOpaque(true);
+
+        longField = new JTextField(control.current.getLongitude());
+        latField = new JTextField(control.current.getLatitude());
+        newLoc = new JButton("Change Weather");
+
+        newLoc.addActionListener(this);
+
+        add(longField);
+        add(latField);
+        add(newLoc);
     }
 
     public Font standardFont(Graphics g){
@@ -148,6 +159,10 @@ public class Interface extends JPanel implements Observer {
             g.drawString(advice.get(i), 100, 100+(15*i));
         }
 
+    }
+
+    public void actionPerformed(ActionEvent e){
+        control.current = control.currentWeather(longField.getText(), latField.getText());
     }
 
     public void update(Observable obs, Object obj){

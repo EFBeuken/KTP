@@ -25,7 +25,7 @@ public class HuntingControl extends Observable implements Observer {
 
     public HuntingControl() {
         this.objects = loadObjects();
-        this.current = currentWeather();
+        this.current = currentWeather("9.8", "53.5");
         this.homepage = true;
     }
 
@@ -36,12 +36,10 @@ public class HuntingControl extends Observable implements Observer {
         return getObjects;
     }
 
-    public Weather currentWeather(){
+    public Weather currentWeather(String longitude, String latitude){
         Weather current = new Weather(null, null, null, null, null, null, null, null, null, null, null, null, null);
-        double longitude = 9.8;
-        double latitude = 53.5;
-        current.setLongitude(String.valueOf(longitude));
-        current.setLatitude(String.valueOf(latitude));
+        current.setLongitude(longitude);
+        current.setLatitude(latitude);
         String locURL = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=57115fa390cea73bc8f4803c8fea348d";
         try {
             URL url = new URL(locURL);
@@ -99,6 +97,7 @@ public class HuntingControl extends Observable implements Observer {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        update();
         return current;
     }
 
@@ -113,12 +112,12 @@ public class HuntingControl extends Observable implements Observer {
     public List<Animal> loadAnimals(){
         List<Animal> getAnimals = new ArrayList<>();
         try {
-            File folder = new File("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/animal");
+            File folder = new File("./src/data/animal");
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
                 if (file.isFile()) {
                     String name = file.getName();
-                    BufferedReader br = new BufferedReader(new FileReader("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/animal/" + name));
+                    BufferedReader br = new BufferedReader(new FileReader("./src/data/animal/" + name));
                     String line = null;
                     List<String> object = new ArrayList<>();
                     while ((line = br.readLine()) != null) {
@@ -148,12 +147,12 @@ public class HuntingControl extends Observable implements Observer {
     public List<Person> loadPersons(){
         List<Person> getPersons = new ArrayList<>();
         try {
-            File folder = new File("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/person");
+            File folder = new File("./src/data/person");
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
                 if (file.isFile()) {
                     String name = file.getName();
-                    BufferedReader br = new BufferedReader(new FileReader("C:/Users/Emily/Documents/AI - 3rd Year/1B/Knowledge Technology Practical/src/data/person/" + name));
+                    BufferedReader br = new BufferedReader(new FileReader("./src/data/person/" + name));
                     String line = null;
                     List<String> object = new ArrayList<>();
                     while ((line = br.readLine()) != null) {

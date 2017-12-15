@@ -1,4 +1,4 @@
-tester
+other
 Sauer 101
 7.62-60
 2000

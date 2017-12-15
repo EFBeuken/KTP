@@ -1,6 +1,6 @@
 tester
-sauer 101 alaska
-30-06
+Sauer 101
+7.62-60
 2000
-no dog
-not driven
+yes/no
+yes/no
