@@ -16,6 +16,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
     private HuntingControl control;
 
     private JTextField typeField;
+    private JTextField energyField;
     private JTextField weightField;
     private JTextField maleStartField;
     private JTextField maleEndField;
@@ -37,6 +38,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
         newPanel.setPreferredSize(new Dimension(400, 300));
         
         typeField = new JTextField("deer", 20);
+        energyField = new JTextField("2000", 4);
         weightField = new JTextField("15", 3);
         maleStartField = new JTextField("0101", 4);
         maleEndField = new JTextField("3112", 4);
@@ -52,6 +54,8 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
 
         newPanel.add(new JLabel("Type"));
         newPanel.add(typeField);
+        newPanel.add(new JLabel("Energy Required"));
+        newPanel.add(energyField);
         newPanel.add(new JLabel("Weight (kg)"));
         newPanel.add(weightField);
         newPanel.add(new JLabel("Male Hunting Season Start"));
@@ -90,6 +94,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
         try{
             writer = new BufferedWriter( new FileWriter("./src/data/animal/" + typeField.getText() + ".txt"));
             writer.write(typeField.getText() + "\n");
+            writer.write(energyField.getText() + "\n");
             writer.write(weightField.getText() + "\n");
             writer.write(maleStartField.getText() + "\n");
             writer.write(maleEndField.getText() + "\n");

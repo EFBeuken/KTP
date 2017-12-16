@@ -1,6 +1,6 @@
 tester
 Sauer 101
 7.62-60
-2000
-yes/no
-yes/no
+1500
+no
+no

@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     JButton newLoc;
     JTextField longField;
     JTextField latField;
+    JComboBox gunField;
 
     public Interface(HuntingControl control){
         this.control = control;
@@ -34,13 +36,29 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         longField = new JTextField(control.current.getLongitude());
         latField = new JTextField(control.current.getLatitude());
-        newLoc = new JButton("Change Weather");
+        newLoc = new JButton("Change Location");
+
+        String options = "";
+        File folder = new File("./src/data/person");
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                options += file.getName();
+            }
+        }
+        String[] optionsList = options.split(".txt");
+
+        gunField = new JComboBox(optionsList);
+        gunField.setSelectedIndex(0);
 
         newLoc.addActionListener(this);
+        gunField.addActionListener(this);
 
+        add(gunField);
         add(longField);
         add(latField);
         add(newLoc);
+
     }
 
     public Font standardFont(Graphics g){
@@ -98,21 +116,41 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     public void paintAnimals(Graphics g){
         g.setColor(Color.black);
+        Person selectedPerson = new Person(null, null, null, null, null, null);
+        for (int i=0; i<control.objects.getPersonsList().size(); i++){
+            if (gunField.getSelectedItem().equals(control.objects.getPersonsList().get(i).getName())) {
+                selectedPerson = control.objects.getPersonsList().get(i);
+            }
+        }
         for (int i=0; i<control.objects.getAnimalsList().size(); i++){
             Animal animal = control.objects.getAnimalsList().get(i);
+            g.setFont(titleFont(g));
+            g.drawString(animal.getType(), 50, 50+(75*i));
+            g.setFont(standardFont(g));
             String animalText = "";
-            animalText = animal.getType() + " " + animal.getAvWeight() + "kg";
-            g.drawString(animalText, 100, 300+(15*i));
+            animalText += "Weight: " + animal.getAvWeight() + "kg\n";
+            animalText += "Male Season: " + animal.getMaleHuntingSeasonStart() + " - " + animal.getMaleHuntingSeasonEnd() + "\n";
+            animalText += "Female Season: " + animal.getFemaleHuntingSeasonStart() + " - " + animal.getFemaleHuntingSeasonEnd() + "\n";
+            if (Integer.parseInt(selectedPerson.getEnergy()) >= Integer.parseInt(animal.getEnergy())){
+                animalText += "The chosen weapon has enough energy to kill this animal.\n";
+            } else {
+                animalText += "The chosen weapon doesn't have enough energy to kill this animal.\n";
+            }
+            multilinePrint(g, animalText, 50, 50+(75*i));
         }
     }
 
     public void paintPersons(Graphics g){
         g.setColor(Color.black);
         for (int i=0; i<control.objects.getPersonsList().size(); i++){
-            Person person = control.objects.getPersonsList().get(i);
-            String personText = "";
-            personText = person.getName() + " " + person.getGun();
-            g.drawString(personText, 200, 300+(15*i));
+            if (gunField.getSelectedItem().equals(control.objects.getPersonsList().get(i).getName())){
+                Person person = control.objects.getPersonsList().get(i);
+                String personText = "";
+                personText = person.getName() + "\n" + person.getGun() + "\n" + person.getAmmunition() + "\n" + person.getEnergy();
+                g.drawString(personText, 300, 300);
+                return;
+            }
+
         }
     }
 
@@ -156,13 +194,17 @@ public class Interface extends JPanel implements Observer, ActionListener {
             advice.add("Be careful of soft ground, don't get your vehicle stuck!");
         }
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), 100, 100+(15*i));
+            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*2/3+(15*i));
         }
 
     }
 
     public void actionPerformed(ActionEvent e){
-        control.current = control.currentWeather(longField.getText(), latField.getText());
+        if (e.getActionCommand().contains("Change Location")) {
+            control.current = control.currentWeather(longField.getText(), latField.getText());
+        } else if (e.getActionCommand().contains("comboBoxChanged")){
+            repaint();
+        }
     }
 
     public void update(Observable obs, Object obj){
@@ -173,7 +215,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         paintAnimals(g);
-        paintPersons(g);
+        //paintPersons(g);
         paintAdvice(g);
         paintWeather(g);
     }
