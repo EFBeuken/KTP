@@ -11,6 +11,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.spi.FileSystemProvider;
 
 /**
  * Created by Emily on 30/11/2017.
@@ -32,7 +33,7 @@ public class DeleteProfileFrame extends JFrame implements ActionListener {
         newPanel.setPreferredSize(new Dimension(400, 300));
 
         String options = "";
-        File folder = new File("./src/data/person");
+        File folder = new File("./data/person");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile()) {
@@ -54,18 +55,20 @@ public class DeleteProfileFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        File folder = new File("./src/data/person");
+        File folder = new File("./data/person");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(nameField.getSelectedItem() +".txt")) {
-                Path deleteFile = Paths.get("./src/data/person/" + nameField.getSelectedItem() + ".txt");
+                Path deleteFile = Paths.get("./data/person/" + nameField.getSelectedItem() + ".txt");
                 try {
                     Files.deleteIfExists(deleteFile);
                     control.objects = control.loadObjects();
                     control.update();
                     dispose();
                 } catch (IOException ex){
-                    JOptionPane.showMessageDialog(new JFrame(), ex, "Dialog",JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
+
 
                 }
             }

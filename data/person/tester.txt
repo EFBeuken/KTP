@@ -1,0 +1,6 @@
+tester
+Sauer 101
+7.62-60
+1500
+no
+no

@@ -1,6 +1,9 @@
 package controller;
 
 import controller.HuntingControl;
+import view.DeleteAnimalFrame;
+import view.DeleteProfileFrame;
+import view.NewProfileFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +23,8 @@ public class DeleteAnimal extends AbstractAction{
     }
 
     public void actionPerformed(ActionEvent e){
-        int reply = JOptionPane.showConfirmDialog(null, "Delete animal", "Delete Animal", JOptionPane.OK_CANCEL_OPTION);
+        DeleteAnimalFrame delProfile = new DeleteAnimalFrame(control);
+        delProfile.setVisible(true);
         control.update();
     }
 

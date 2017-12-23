@@ -32,7 +32,7 @@ public class DeleteAnimalFrame extends JFrame implements ActionListener {
         newPanel.setPreferredSize(new Dimension(400, 300));
 
         String options = "";
-        File folder = new File("./src/data/animal");
+        File folder = new File("./data/animal");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile()) {
@@ -54,11 +54,11 @@ public class DeleteAnimalFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        File folder = new File("./src/data/animal");
+        File folder = new File("./data/animal");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(typeField.getSelectedItem() +".txt")) {
-                Path deleteFile = Paths.get("./src/data/animal/" + typeField.getSelectedItem() + ".txt");
+                Path deleteFile = Paths.get("./data/animal/" + typeField.getSelectedItem() + ".txt");
                 try {
                     Files.deleteIfExists(deleteFile);
                     control.objects = control.loadObjects();

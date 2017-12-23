@@ -1,21 +1,12 @@
 package controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import model.*;
-import oracle.jrockit.jfr.StringConstantPool;
-import sun.java2d.cmm.Profile;
-
-import javax.swing.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static java.lang.Math.round;
-
 
 public class HuntingControl extends Observable implements Observer {
 
@@ -112,12 +103,12 @@ public class HuntingControl extends Observable implements Observer {
     public List<Animal> loadAnimals(){
         List<Animal> getAnimals = new ArrayList<>();
         try {
-            File folder = new File("./src/data/animal");
+            File folder = new File("./data/animal");
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
                 if (file.isFile()) {
                     String name = file.getName();
-                    BufferedReader br = new BufferedReader(new FileReader("./src/data/animal/" + name));
+                    BufferedReader br = new BufferedReader(new FileReader("./data/animal/" + name));
                     String line = null;
                     List<String> object = new ArrayList<>();
                     while ((line = br.readLine()) != null) {
@@ -147,12 +138,12 @@ public class HuntingControl extends Observable implements Observer {
     public List<Person> loadPersons(){
         List<Person> getPersons = new ArrayList<>();
         try {
-            File folder = new File("./src/data/person");
+            File folder = new File("./data/person");
             File[] listOfFiles = folder.listFiles();
             for (File file : listOfFiles) {
                 if (file.isFile()) {
                     String name = file.getName();
-                    BufferedReader br = new BufferedReader(new FileReader("./src/data/person/" + name));
+                    BufferedReader br = new BufferedReader(new FileReader("./data/person/" + name));
                     String line = null;
                     List<String> object = new ArrayList<>();
                     while ((line = br.readLine()) != null) {
@@ -168,6 +159,7 @@ public class HuntingControl extends Observable implements Observer {
                     getPersons.add(person);
                 }
             }
+
         } catch (Exception ex){
             System.out.print(ex);
         }

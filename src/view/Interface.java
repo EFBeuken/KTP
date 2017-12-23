@@ -1,6 +1,7 @@
 package view;
 
 import controller.HuntingControl;
+import controller.Rules;
 import model.Animal;
 import model.Person;
 import model.Weather;
@@ -22,13 +23,15 @@ import java.util.Observer;
 public class Interface extends JPanel implements Observer, ActionListener {
 
     private HuntingControl control;
-    JButton newLoc;
-    JTextField longField;
-    JTextField latField;
-    JComboBox gunField;
+    private Rules rules;
+    private JButton newLoc;
+    private JTextField longField;
+    private JTextField latField;
+    private JComboBox gunField;
 
-    public Interface(HuntingControl control){
+    public Interface(HuntingControl control, Rules rules){
         this.control = control;
+        this.rules = rules;
         control.addObserver(this);
         setBackground(Color.lightGray);
         setVisible(true);
@@ -39,7 +42,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         newLoc = new JButton("Change Location");
 
         String options = "";
-        File folder = new File("./src/data/person");
+        File folder = new File("./data/person");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile()) {
@@ -154,49 +157,20 @@ public class Interface extends JPanel implements Observer, ActionListener {
         }
     }
 
-    public void paintAdvice(Graphics g){
+    public void paintWeatherAdvice(Graphics g){
         g.setColor(Color.black);
-        Weather weather = control.current;
-        List<String> advice = new ArrayList<>();
-        if (Float.parseFloat(weather.getWindSpeed()) > 35){
-            advice.add("It is too windy to go hunting.");
-        } else if (Float.parseFloat(weather.getWindSpeed()) > 20){
-            advice.add("It is quite windy.");
-        } else {
-            advice.add("The wind is fine for hunting.");
-        }
-        if (Float.parseFloat(weather.getWindDirection()) > 315 && Float.parseFloat(weather.getWindDirection()) < 45){
-            advice.add("Do not sit facing North.");
-        } else  if (Float.parseFloat(weather.getWindDirection()) > 45 && Float.parseFloat(weather.getWindDirection()) < 135){
-            advice.add("Do not sit facing East.");
-        } else  if (Float.parseFloat(weather.getWindDirection()) > 135 && Float.parseFloat(weather.getWindDirection()) < 225){
-            advice.add("Do not sit facing South.");
-        } else{
-            advice.add("Do not sit facing West");
-        }
-        if (Float.parseFloat(weather.getTemperature()) > 25){
-            advice.add("It is too hot for the animals to go hunting.");
-        } else if (Float.parseFloat(weather.getWindSpeed()) < -20){
-            advice.add("It is too cold for the animals to go hunting.");
-        } else {
-            advice.add("The temperature is fine for hunting.");
-        }
-        if (weather.getDescription().contains("snow")){
-            advice.add("Snow helps you to see the animals.");
-        }
-        if (weather.getDescription().contains("mist")){
-            advice.add("Mist can hinder visibility.");
-        }
-        if (weather.getDescription().contains("heavy rain")){
-            advice.add("Animals are not a fan of heavy rain.");
-        }
-        if (weather.getDescription().contains("rain")){
-            advice.add("Be careful of soft ground, don't get your vehicle stuck!");
-        }
+        List<String> advice = rules.weatherRules();
         for (int i=0; i<advice.size(); i++){
             g.drawString(advice.get(i), getWidth()*2/3, getHeight()*2/3+(15*i));
         }
+    }
 
+    public void paintAnimalAdvice(Graphics g){
+        g.setColor(Color.black);
+        List<String> advice = rules.animalRules();
+        for (int i=0; i<advice.size(); i++){
+            g.drawString(advice.get(i), getWidth()/4, getHeight()/4+(15*i));
+        }
     }
 
     public void actionPerformed(ActionEvent e){
@@ -214,9 +188,10 @@ public class Interface extends JPanel implements Observer, ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        paintAnimals(g);
+        //paintAnimals(g);
         //paintPersons(g);
-        paintAdvice(g);
+        paintWeatherAdvice(g);
+        paintAnimalAdvice(g);
         paintWeather(g);
     }
 
