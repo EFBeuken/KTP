@@ -13,11 +13,21 @@ public class HuntingControl extends Observable implements Observer {
     public Boolean homepage;
     public LoadObjects objects;
     public Weather current;
+    private int selectPerson;
 
     public HuntingControl() {
         this.objects = loadObjects();
         this.current = currentWeather("9.8", "53.5");
         this.homepage = true;
+        this.selectPerson = 0;
+    }
+
+    public int getSelectPerson() {
+        return selectPerson;
+    }
+
+    public void setSelectPerson(int selectPerson) {
+        this.selectPerson = selectPerson;
     }
 
     public LoadObjects loadObjects(){

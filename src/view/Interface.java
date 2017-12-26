@@ -27,7 +27,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     private JButton newLoc;
     private JTextField longField;
     private JTextField latField;
-    private JComboBox gunField;
+    public JComboBox gunField;
 
     public Interface(HuntingControl control, Rules rules){
         this.control = control;
@@ -52,7 +52,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         String[] optionsList = options.split(".txt");
 
         gunField = new JComboBox(optionsList);
-        gunField.setSelectedIndex(0);
+        gunField.setSelectedIndex(control.getSelectPerson());
 
         newLoc.addActionListener(this);
         gunField.addActionListener(this);
@@ -117,46 +117,6 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     }
 
-    public void paintAnimals(Graphics g){
-        g.setColor(Color.black);
-        Person selectedPerson = new Person(null, null, null, null, null, null);
-        for (int i=0; i<control.objects.getPersonsList().size(); i++){
-            if (gunField.getSelectedItem().equals(control.objects.getPersonsList().get(i).getName())) {
-                selectedPerson = control.objects.getPersonsList().get(i);
-            }
-        }
-        for (int i=0; i<control.objects.getAnimalsList().size(); i++){
-            Animal animal = control.objects.getAnimalsList().get(i);
-            g.setFont(titleFont(g));
-            g.drawString(animal.getType(), 50, 50+(75*i));
-            g.setFont(standardFont(g));
-            String animalText = "";
-            animalText += "Weight: " + animal.getAvWeight() + "kg\n";
-            animalText += "Male Season: " + animal.getMaleHuntingSeasonStart() + " - " + animal.getMaleHuntingSeasonEnd() + "\n";
-            animalText += "Female Season: " + animal.getFemaleHuntingSeasonStart() + " - " + animal.getFemaleHuntingSeasonEnd() + "\n";
-            if (Integer.parseInt(selectedPerson.getEnergy()) >= Integer.parseInt(animal.getEnergy())){
-                animalText += "The chosen weapon has enough energy to kill this animal.\n";
-            } else {
-                animalText += "The chosen weapon doesn't have enough energy to kill this animal.\n";
-            }
-            multilinePrint(g, animalText, 50, 50+(75*i));
-        }
-    }
-
-    public void paintPersons(Graphics g){
-        g.setColor(Color.black);
-        for (int i=0; i<control.objects.getPersonsList().size(); i++){
-            if (gunField.getSelectedItem().equals(control.objects.getPersonsList().get(i).getName())){
-                Person person = control.objects.getPersonsList().get(i);
-                String personText = "";
-                personText = person.getName() + "\n" + person.getGun() + "\n" + person.getAmmunition() + "\n" + person.getEnergy();
-                g.drawString(personText, 300, 300);
-                return;
-            }
-
-        }
-    }
-
     public void paintWeatherAdvice(Graphics g){
         g.setColor(Color.black);
         List<String> advice = rules.weatherRules();
@@ -169,7 +129,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setColor(Color.black);
         List<String> advice = rules.animalRules();
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), getWidth()/4, getHeight()/4+(15*i));
+            g.drawString(advice.get(i), 50, getHeight()/6+(15*i));
         }
     }
 
@@ -177,8 +137,9 @@ public class Interface extends JPanel implements Observer, ActionListener {
         if (e.getActionCommand().contains("Change Location")) {
             control.current = control.currentWeather(longField.getText(), latField.getText());
         } else if (e.getActionCommand().contains("comboBoxChanged")){
-            repaint();
+            control.setSelectPerson(gunField.getSelectedIndex());
         }
+        repaint();
     }
 
     public void update(Observable obs, Object obj){
