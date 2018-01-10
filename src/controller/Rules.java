@@ -83,7 +83,7 @@ public class Rules {
         SimpleDateFormat sdf2 = new SimpleDateFormat("ddMM");
         Date date = new Date();
         Date currentTime, currentDay = null, sunrise, sunset, maleSeasonStart, maleSeasonEnd, femaleSeasonStart, femaleSeasonEnd;
-        Boolean canHunt = true, canHuntMale, canHuntFemale;
+        Boolean canHunt, canHuntMale, canHuntFemale;
         try {
             currentTime = sdf.parse(sdf.format(date));
             currentDay = sdf2.parse(sdf2.format(date));
@@ -92,6 +92,7 @@ public class Rules {
             currentTime = null;
         }
         for (int i=0; i<control.objects.getAnimalsList().size(); i++){
+            canHunt = true;
             Animal animal = control.objects.getAnimalsList().get(i);
             advice.add(animal.getType());
             //Hunting Season
@@ -123,6 +124,11 @@ public class Rules {
                     advice.add("CANNOT PARSE HUNTING SEASON");
                 }
 
+            }
+            // Energy in the gun
+            if (Integer.parseInt(animal.getEnergy()) > Integer.parseInt(person.getEnergy())){
+                advice.add("The gun selected doesn't have enough energy to kill this animal.");
+                canHunt = false;
             }
             if (canHunt) {
                 //Time for hunting
@@ -160,10 +166,6 @@ public class Rules {
                 // Environment
                 if (!animal.getEnvironment().contains("everywhere")){
                     advice.add("Mostly seen in: " + animal.getEnvironment());
-                }
-                // Energy in the gun
-                if (Integer.parseInt(animal.getEnergy()) > Integer.parseInt(person.getEnergy())){
-                    advice.add("The gun selected doesn't have enough energy to kill this animal.");
                 }
             }
             advice.add("");

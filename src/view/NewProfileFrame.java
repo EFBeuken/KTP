@@ -63,7 +63,7 @@ public class NewProfileFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        File folder = new File("./src/data/person");
+        File folder = new File("./data/person");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(nameField.getText()+".txt")) {
@@ -73,7 +73,7 @@ public class NewProfileFrame extends JFrame implements ActionListener {
         }
         BufferedWriter writer = null;
         try{
-            writer = new BufferedWriter( new FileWriter("./src/data/person/" + nameField.getText() + ".txt"));
+            writer = new BufferedWriter( new FileWriter("./data/person/" + nameField.getText() + ".txt"));
             writer.write(nameField.getText() + "\n");
             writer.write(gunField.getText() + "\n");
             writer.write(ammunitionField.getText() + "\n");

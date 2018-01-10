@@ -82,7 +82,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        File folder = new File("./src/data/animal");
+        File folder = new File("./data/animal");
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(typeField.getText()+".txt")) {
@@ -92,7 +92,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
         }
         BufferedWriter writer = null;
         try{
-            writer = new BufferedWriter( new FileWriter("./src/data/animal/" + typeField.getText() + ".txt"));
+            writer = new BufferedWriter( new FileWriter("./data/animal/" + typeField.getText() + ".txt"));
             writer.write(typeField.getText() + "\n");
             writer.write(energyField.getText() + "\n");
             writer.write(weightField.getText() + "\n");
