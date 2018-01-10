@@ -82,6 +82,43 @@ public class Interface extends JPanel implements Observer, ActionListener {
             g.drawString(line, x, y += g.getFontMetrics().getHeight());
     }
 
+	public void paintMap(Graphics g){
+		try {
+				Weather current = control.current;
+				String latitude = current.getLatitude();
+				String longitude = current.getLongitude();
+				String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?center="
+				+ latitude
+				+ ","
+				+ longitude
+				+ "&zoom=11&size=612x612&scale=2&maptype=roadmap";
+				String destinationFile = "image.jpg";
+				// read the map image from Google
+				// then save it to a local file: image.jpg
+				//
+				URL url = new URL(imageUrl);
+				InputStream is = url.openStream();
+				OutputStream os = new FileOutputStream(destinationFile);
+				byte[] b = new byte[2048];
+				int length;
+				while ((length = is.read(b)) != -1) {
+					os.write(b, 0, length);
+				}
+				is.close();
+				os.close();
+				
+				BufferedImage img = ImageIO.read(new URL(imageUrl));
+				int w = img.getWidth(null);
+				int h = img.getHeight(null);
+				BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+				g.drawImage(img, getWidth()-w, 0, null);
+			} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+
     public void paintWeather(Graphics g){
         //current weather
         //on start up take one of the locs (random) and get the weather for that loc
@@ -171,6 +208,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        paintMap(g);
         paintWeatherAdvice(g);
         paintAnimalAdvice(g);
         paintWeather(g);
