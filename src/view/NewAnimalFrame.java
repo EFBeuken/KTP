@@ -105,7 +105,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
             writer.write(callersField.getText() + "\n");
             writer.write(environmentField.getText() + "\n");
             writer.close();
-            JOptionPane.showMessageDialog(new JFrame(), "Saved!", "Dialog",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Saved!", "Save",JOptionPane.INFORMATION_MESSAGE);
             control.objects = control.loadObjects();
             control.update();
             dispose();

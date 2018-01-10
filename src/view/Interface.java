@@ -34,7 +34,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     private JTextField longField;
     private JTextField latField;
     public JComboBox gunField;
-    
+
     Color grey = new Color(118, 118, 118);
     Color googleGrey = new Color(237,237,237);
     Color lightGrey = new Color(222,222,222);
@@ -85,7 +85,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         Font font = new Font("LucidaTypewriterRegular", Font.BOLD, 20);
         return font;
     }
-    
+
     public Font extraFont(Graphics g){
         g.setColor(grey);
         Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 16);
@@ -125,11 +125,12 @@ public class Interface extends JPanel implements Observer, ActionListener {
             BufferedImage img = ImageIO.read(new URL(imageUrl));
             int w = 330;
             int h = 220;
-            
+
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             g.drawImage(img, 650, 20, null);
-            
+
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(new JFrame(), "Cannot display map!", "Error",JOptionPane.INFORMATION_MESSAGE);
             e.printStackTrace();
             System.exit(1);
         }
@@ -144,7 +145,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setColor(Color.white);
         String title = current.getTemperature() + "\u00b0"+ "C";
         g.drawString(title, 670, 251);
-    
+
         String text = "";
         text += "Longitude: " + current.getLongitude() + " \n";
         text += "Latitude: " + current.getLatitude() + " \n";
@@ -231,7 +232,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g);
-        
+
         g2d.setColor(new Color(249,249,249));
         g2d.fillRect(650, 20, 330, 495);
         paintMap(g);
@@ -241,21 +242,21 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g2d.fillRect(650, 515, 330, 100);
         g2d.setColor(lightGrey);
         g2d.drawRect(650, 20, 330, 595);
-        
+
         g2d.setColor(new Color(33, 150, 243));
         g2d.fillRect(400, 20, 250, 110);
         g2d.setColor(lightGrey);
         g2d.drawRect(400, 20, 250, 110);
-        
-        
-        
+
+
+
         paintWeatherAdvice(g);
         paintAnimalAdvice(g);
         paintWeather(g);
         paintGun(g);
     }
-    
-    
-    
+
+
+
 
 }
