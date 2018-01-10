@@ -1,6 +1,5 @@
 package view;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import controller.HuntingControl;
 import controller.Rules;
 import model.Animal;
