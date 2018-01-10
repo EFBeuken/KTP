@@ -160,13 +160,14 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setFont(extraFont(g));
         multilinePrint(g, text, getWidth()*2/3, 290);
 
-        String url = "http://openweathermap.org/img/w/" + current.getIcon() + ".png";
+        String url = "https://raw.githubusercontent.com/EFBeuken/KTP/master/PNG/" + current.getIcon() + ".png";
+        //String url = "http://openweathermap.org/img/w/" + current.getIcon() + ".png";
         try {
             BufferedImage img = ImageIO.read(new URL(url));
-            int w = img.getWidth(null);
-            int h = img.getHeight(null);
+            int w = 20;
+            int h = 20;
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            g.drawImage(img, getWidth()-90, 220, null);
+            g.drawImage(img, getWidth()-110, 215, 68, 70, null);
         } catch (Exception ex){
             System.out.println(ex);
         }
