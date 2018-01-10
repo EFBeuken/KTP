@@ -151,7 +151,6 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Latitude: " + current.getLatitude() + " \n";
         text += "Wind Speed: " + current.getWindSpeed() + " \n";
         text += "Wind Direction: " + current.getWindDirection() + " \n";
-        text += "Moon Phase: " + current.getMoonPhase() + "\n";
         text += "Description: " + current.getDescription() + "\n";
         text += "Sunrise: " + current.getSunrise() + "\n";
         text += "Sunset: " + current.getSunset() + "\n";
@@ -159,7 +158,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Visibility: " + current.getVisibility() + " m\n";
         text += "CloudCover: " + current.getCloudCover() + " %\n";
         g.setFont(extraFont(g));
-        multilinePrint(g, text, getWidth()*2/3, 290);
+        multilinePrint(g, text, 660, 290);
 
         String url = "https://raw.githubusercontent.com/EFBeuken/KTP/master/PNG/" + current.getIcon() + ".png";
         //String url = "http://openweathermap.org/img/w/" + current.getIcon() + ".png";
@@ -168,7 +167,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
             int w = 20;
             int h = 20;
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            g.drawImage(img, getWidth()-110, 215, 68, 70, null);
+            g.drawImage(img, 900, 215, 68, 70, null);
         } catch (Exception ex){
             System.out.println(ex);
         }
@@ -179,7 +178,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setFont(titleFont(g));
         g.setColor(Color.white);
         String title = "Gun";
-        g.drawString(title, getWidth()*3/4-title.length()/2-250, 45);
+        g.drawString(title, 410, 535);
         Person person = control.objects.getPersonsList().get(control.getSelectPerson());
         String text = "";
         text += person.getGun() + "\n";
@@ -188,7 +187,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Dogs? " + person.getDog() + "\n";
         g.setFont(standardFont(g));
         g.setColor(Color.white);
-        multilinePrint(g, text, getWidth()*2/3-250, 55);
+        multilinePrint(g, text, 410, 535);
     }
 
     public void paintWeatherAdvice(Graphics g){
@@ -197,7 +196,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setFont(standardFont(g));
         g.setColor(Color.white);
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*3/5+(17*i)+130);
+            g.drawString(advice.get(i), 660, 530+(17*i));
         }
     }
 
@@ -244,9 +243,9 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g2d.drawRect(650, 20, 330, 595);
 
         g2d.setColor(new Color(33, 150, 243));
-        g2d.fillRect(400, 20, 250, 110);
+        g2d.fillRect(400, 515, 250, 100);
         g2d.setColor(lightGrey);
-        g2d.drawRect(400, 20, 250, 110);
+        g2d.drawRect(400, 515, 250, 110);
 
 
 
