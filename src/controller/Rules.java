@@ -21,9 +21,7 @@ public class Rules {
     public Rules(HuntingControl control){
         this.control = control;
         this.weatherAdvice = weatherRules();
-        this.animalAdvice = animalRules();
     }
-
 
     public List<String> weatherRules(){
         Weather weather = control.current;
@@ -75,7 +73,7 @@ public class Rules {
         return advice;
     }
 
-    public List<String> animalRules(){
+    public List<String> animalRules(int animalIndex){
         List<String> advice = new ArrayList<>();
         Weather weather = control.current;
         Person person = control.objects.getPersonsList().get(control.getSelectPerson());
@@ -91,85 +89,93 @@ public class Rules {
             advice.add("CANNOT PARSE CURRENT TIME");
             currentTime = null;
         }
-        for (int i=0; i<control.objects.getAnimalsList().size(); i++){
-            canHunt = true;
-            Animal animal = control.objects.getAnimalsList().get(i);
-            advice.add(animal.getType());
-            //Hunting Season
-            if (currentDay!=null){
-                try {
-                    maleSeasonStart = sdf2.parse(animal.getMaleHuntingSeasonStart());
-                    maleSeasonEnd = sdf2.parse(animal.getMaleHuntingSeasonEnd());
-                    femaleSeasonStart = sdf2.parse(animal.getFemaleHuntingSeasonStart());
-                    femaleSeasonEnd = sdf2.parse(animal.getFemaleHuntingSeasonEnd());
-                    if ((maleSeasonStart.before(maleSeasonEnd) && currentDay.after(maleSeasonStart) && currentDay.before(maleSeasonEnd)) || (maleSeasonStart.after(maleSeasonEnd) && !(currentDay.after(maleSeasonStart) && currentDay.before(maleSeasonEnd)))){
-                        canHuntMale = true;
-                    } else {
-                        canHuntMale = false;
-                    }
-                    if ((femaleSeasonStart.before(femaleSeasonEnd) && currentDay.after(femaleSeasonStart) && currentDay.before(femaleSeasonEnd)) || (femaleSeasonStart.after(femaleSeasonEnd) && !(currentDay.after(femaleSeasonStart) && currentDay.before(femaleSeasonEnd)))){
-                        canHuntFemale = true;
-                    } else {
-                        canHuntFemale = false;
-                    }
-                    if (!canHuntMale && !canHuntFemale) {
-                        canHunt = false;
-                        advice.add("This animal cannot be hunted.");
-                    } else if (!canHuntFemale){
-                        advice.add("Females cannot be hunted.");
-                    } else if (!canHuntMale){
-                        advice.add("Males cannot be hunted.");
-                    }
-                } catch (ParseException ex){
-                    advice.add("CANNOT PARSE HUNTING SEASON");
-                }
-
-            }
-            // Energy in the gun
-            if (Integer.parseInt(animal.getEnergy()) > Integer.parseInt(person.getEnergy())){
-                advice.add("The gun selected doesn't have enough energy to kill this animal.");
-                canHunt = false;
-            }
-            if (canHunt) {
-                //Time for hunting
-                if (currentTime != null) {
-                    try {
-                        sunrise = sdf.parse(weather.getSunrise());
-                        sunset = sdf.parse(weather.getSunset());
-                        if (animal.getBestTime().contains("night")) {
-                            if (currentTime.after(sunset)) {
-                                advice.add("The sun has already set, it's time to go out and hunt.");
-                            } else if (sunset.getTime() - currentTime.getTime() < 3600000) {
-                                advice.add("Less than an hour until sunset, time to get ready to hunt.");
-                            }
-                        } else if (animal.getBestTime().contains("getting")) {
-                            if (currentTime.after(sunset)) {
-                                advice.add("It's already dark, not a good time to hunt this animal.");
-                            } else if (sunset.getTime() - currentTime.getTime() < 7200000) {
-                                advice.add("Less than an two hours until sunset, time to go out and hunt.");
-                            } else if (sunrise.getTime() - currentTime.getTime() < 7200000) {
-                                advice.add("Less than an two hours until sunrise, time to go out and hunt.");
-                            }
-                        }
-                    } catch (ParseException ex) {
-                        advice.add("CANNOT PARSE CURRENT TIME");
-                    }
-                }
-                // Food
-                if (!animal.getFood().contains("null")){
-                    advice.add("Food to leave out:" + animal.getFood());
-                }
-                // Callers
-                if (!animal.getCallers().contains("null")){
-                    advice.add("Take a caller for this animal (e.g. " + animal.getCallers() + ")");
-                }
-                // Environment
-                if (!animal.getEnvironment().contains("everywhere")){
-                    advice.add("Mostly seen in: " + animal.getEnvironment());
-                }
-            }
-            advice.add("");
+        canHunt = true;
+        Animal animal = control.objects.getAnimalsList().get(animalIndex);
+        advice.add(animal.getType());
+        //Hunting Season
+        if (currentDay!=null){
+           try {
+               maleSeasonStart = sdf2.parse(animal.getMaleHuntingSeasonStart());
+               maleSeasonEnd = sdf2.parse(animal.getMaleHuntingSeasonEnd());
+               femaleSeasonStart = sdf2.parse(animal.getFemaleHuntingSeasonStart());
+               femaleSeasonEnd = sdf2.parse(animal.getFemaleHuntingSeasonEnd());
+               if ((maleSeasonStart.before(maleSeasonEnd) && currentDay.after(maleSeasonStart) && currentDay.before(maleSeasonEnd)) || (maleSeasonStart.after(maleSeasonEnd) && !(currentDay.after(maleSeasonStart) && currentDay.before(maleSeasonEnd)))){
+                   canHuntMale = true;
+               } else {
+                   canHuntMale = false;
+               }
+               if ((femaleSeasonStart.before(femaleSeasonEnd) && currentDay.after(femaleSeasonStart) && currentDay.before(femaleSeasonEnd)) || (femaleSeasonStart.after(femaleSeasonEnd) && !(currentDay.after(femaleSeasonStart) && currentDay.before(femaleSeasonEnd)))){
+                   canHuntFemale = true;
+               } else {
+                   canHuntFemale = false;
+               }
+               if (!canHuntMale && !canHuntFemale) {
+                   canHunt = false;
+                   advice.add("This animal cannot be hunted.");
+               } else if (!canHuntFemale){
+                   advice.add("Females cannot be hunted.");
+               } else if (!canHuntMale){
+                   advice.add("Males cannot be hunted.");
+               }
+           } catch (ParseException ex){
+               advice.add("CANNOT PARSE HUNTING SEASON");
+           }
         }
+        // Energy in the gun
+        if (Integer.parseInt(animal.getEnergy()) > Integer.parseInt(person.getEnergy())){
+            advice.add("The gun selected doesn't have enough energy to kill this animal.");
+            canHunt = false;
+        }
+        if (canHunt) {
+            //Time for hunting
+            if (currentTime != null) {
+                try {
+                    sunrise = sdf.parse(weather.getSunrise());
+                    sunset = sdf.parse(weather.getSunset());
+                    if (animal.getBestTime().contains("night")) {
+                        if (currentTime.after(sunset)) {
+                            advice.add("The sun has already set, it's time to go out and hunt.");
+                        } else if (sunset.getTime() - currentTime.getTime() < 3600000) {
+                            advice.add("Less than an hour until sunset, time to get ready to hunt.");
+                        }
+                    } else if (animal.getBestTime().contains("getting")) {
+                        if (currentTime.after(sunset)) {
+                            advice.add("It's already dark, not a good time to hunt this animal.");
+                        } else if (sunset.getTime() - currentTime.getTime() < 7200000) {
+                            advice.add("Less than an two hours until sunset, time to go out and hunt.");
+                        } else if (sunrise.getTime() - currentTime.getTime() < 7200000) {
+                            advice.add("Less than an two hours until sunrise, time to go out and hunt.");
+                        }
+                    }
+                } catch (ParseException ex) {
+                    advice.add("CANNOT PARSE CURRENT TIME");
+                }
+            }
+            // Food
+            if (!animal.getFood().contains("null")){
+                advice.add("Food to leave out:" + animal.getFood());
+            }
+            // Callers
+            if (!animal.getCallers().contains("null")){
+                advice.add("Take a caller for this animal (e.g. " + animal.getCallers() + ")");
+            }
+            // Environment
+            if (!animal.getEnvironment().contains("everywhere")){
+                advice.add("Mostly seen in: " + animal.getEnvironment());
+            }
+            //Driven hunt
+            if (person.getDriven().contains("yes") && animal.getType().contains("boar")){
+                advice.add("This animal is suitable for a driven hunt.");
+            }
+            if (person.getDog().contains("yes")){
+                if (animal.getType().contains("boar")){
+                    advice.add("Dogs are beneficial to the driven hunt.");
+                } else if (Integer.parseInt(animal.getEnergy()) == 500){
+                    advice.add("Dogs are beneficial to fetch smaller creatures.");
+                }
+            }
+        }
+        advice.add("");
         return advice;
     }
 }

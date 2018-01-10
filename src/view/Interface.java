@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import controller.HuntingControl;
 import controller.Rules;
 import model.Animal;
@@ -117,20 +118,41 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     }
 
+    public void paintGun(Graphics g){
+        g.setFont(titleFont(g));
+        String title = "Gun";
+        g.drawString(title, getWidth()*3/4-title.length()/2, getHeight()-120);
+        Person person = control.objects.getPersonsList().get(control.getSelectPerson());
+        String text = "";
+        text += person.getGun() + "\n";
+        text += person.getAmmunition() + "\n";
+        text += "Driven? " + person.getDriven() + "\n";
+        text += "Dogs? " + person.getDog() + "\n";
+        g.setFont(standardFont(g));
+        multilinePrint(g, text, getWidth()*2/3, getHeight()-110);
+    }
+
     public void paintWeatherAdvice(Graphics g){
         g.setColor(Color.black);
         List<String> advice = rules.weatherRules();
+        g.setFont(standardFont(g));
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*2/3+(15*i));
+            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*3/5+(15*i));
         }
     }
 
     public void paintAnimalAdvice(Graphics g){
         g.setColor(Color.black);
-        List<String> advice = rules.animalRules();
-        for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), 50, getHeight()/6+(15*i));
+        for (int i=0; i<control.objects.animalsList.size(); i++){
+            List<String> advice = rules.animalRules(i);
+            g.setFont(titleFont(g));
+            g.drawString(advice.get(0), 20, 20+(100*i));
+            g.setFont(standardFont(g));
+            for (int j=1; j<advice.size(); j++){
+                g.drawString(advice.get(j), 20, 20+(15*j)+(100*i));
+            }
         }
+
     }
 
     public void actionPerformed(ActionEvent e){
@@ -149,11 +171,10 @@ public class Interface extends JPanel implements Observer, ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //paintAnimals(g);
-        //paintPersons(g);
         paintWeatherAdvice(g);
         paintAnimalAdvice(g);
         paintWeather(g);
+        paintGun(g);
     }
 
 
