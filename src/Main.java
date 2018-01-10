@@ -15,7 +15,7 @@ public class Main {
         Rules  rules = new Rules(control);
         JFrame frame = new JFrame("Hunting101");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(800,500));
+        frame.setPreferredSize(new Dimension(1000,700));
         Interface panelInterface = new Interface(control, rules);
         frame.setJMenuBar(new MenuOptions(control));
         frame.getContentPane().add(panelInterface);

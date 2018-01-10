@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.Graphics2D;
+
+import java.awt.GradientPaint;
 
 public class Interface extends JPanel implements Observer, ActionListener {
 
@@ -31,12 +34,16 @@ public class Interface extends JPanel implements Observer, ActionListener {
     private JTextField longField;
     private JTextField latField;
     public JComboBox gunField;
+    
+    Color grey = new Color(118, 118, 118);
+    Color googleGrey = new Color(237,237,237);
+    Color lightGrey = new Color(222,222,222);
 
     public Interface(HuntingControl control, Rules rules){
         this.control = control;
         this.rules = rules;
         control.addObserver(this);
-        setBackground(Color.lightGray);
+        setBackground(googleGrey);
         setVisible(true);
         setOpaque(true);
 
@@ -69,13 +76,19 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     public Font standardFont(Graphics g){
         g.setColor(Color.black);
-        Font font = new Font("Courier New", Font.PLAIN, 12);
+        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 12);
         return font;
     }
 
     public Font titleFont(Graphics g){
         g.setColor(Color.black);
-        Font font = new Font("Courier New", Font.PLAIN, 16);
+        Font font = new Font("LucidaTypewriterRegular", Font.BOLD, 20);
+        return font;
+    }
+    
+    public Font extraFont(Graphics g){
+        g.setColor(grey);
+        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 16);
         return font;
     }
 
@@ -93,7 +106,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
                     + latitude
                     + ","
                     + longitude
-                    + "&zoom=11&size=612x612&scale=2&maptype=roadmap";
+                    + "&zoom=11&size=330x220&scale=1&maptype=roadmap";
             String destinationFile = "image.jpg";
             // read the map image from Google
             // then save it to a local file: image.jpg
@@ -110,10 +123,12 @@ public class Interface extends JPanel implements Observer, ActionListener {
             os.close();
 
             BufferedImage img = ImageIO.read(new URL(imageUrl));
-            int w = img.getWidth(null);
-            int h = img.getHeight(null);
+            int w = 330;
+            int h = 220;
+            
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            g.drawImage(img, getWidth()-w, 0, null);
+            g.drawImage(img, 650, 20, null);
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -124,16 +139,17 @@ public class Interface extends JPanel implements Observer, ActionListener {
     public void paintWeather(Graphics g){
         //current weather
         //on start up take one of the locs (random) and get the weather for that loc
-        g.setFont(titleFont(g));
-        String title = "Weather";
-        g.drawString(title, getWidth()*3/4-title.length()/2, 50);
         Weather current = control.current;
+        g.setFont(titleFont(g));
+        g.setColor(Color.white);
+        String title = current.getTemperature() + "\u00b0"+ "C";
+        g.drawString(title, 670, 251);
+    
         String text = "";
         text += "Longitude: " + current.getLongitude() + " \n";
         text += "Latitude: " + current.getLatitude() + " \n";
         text += "Wind Speed: " + current.getWindSpeed() + " \n";
         text += "Wind Direction: " + current.getWindDirection() + " \n";
-        text += "Temperature: " + current.getTemperature() + " Celcius\n";
         text += "Moon Phase: " + current.getMoonPhase() + "\n";
         text += "Description: " + current.getDescription() + "\n";
         text += "Sunrise: " + current.getSunrise() + "\n";
@@ -141,16 +157,17 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Humidity: " + current.getHumidity() + " %\n";
         text += "Visibility: " + current.getVisibility() + " m\n";
         text += "CloudCover: " + current.getCloudCover() + " %\n";
-        g.setFont(standardFont(g));
-        multilinePrint(g, text, getWidth()*2/3, 60);
+        g.setFont(extraFont(g));
+        multilinePrint(g, text, getWidth()*2/3, 290);
 
-        String url = "http://openweathermap.org/img/w/" + current.getIcon() + ".png";
+        String url = "https://raw.githubusercontent.com/EFBeuken/KTP/master/PNG/" + current.getIcon() + ".png";
+        //String url = "http://openweathermap.org/img/w/" + current.getIcon() + ".png";
         try {
             BufferedImage img = ImageIO.read(new URL(url));
-            int w = img.getWidth(null);
-            int h = img.getHeight(null);
+            int w = 20;
+            int h = 20;
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            g.drawImage(img, getWidth()-w, 0, null);
+            g.drawImage(img, getWidth()-110, 215, 68, 70, null);
         } catch (Exception ex){
             System.out.println(ex);
         }
@@ -159,8 +176,9 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     public void paintGun(Graphics g){
         g.setFont(titleFont(g));
+        g.setColor(Color.white);
         String title = "Gun";
-        g.drawString(title, getWidth()*3/4-title.length()/2, getHeight()-120);
+        g.drawString(title, getWidth()*3/4-title.length()/2-250, 45);
         Person person = control.objects.getPersonsList().get(control.getSelectPerson());
         String text = "";
         text += person.getGun() + "\n";
@@ -168,15 +186,17 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Driven? " + person.getDriven() + "\n";
         text += "Dogs? " + person.getDog() + "\n";
         g.setFont(standardFont(g));
-        multilinePrint(g, text, getWidth()*2/3, getHeight()-110);
+        g.setColor(Color.white);
+        multilinePrint(g, text, getWidth()*2/3-250, 55);
     }
 
     public void paintWeatherAdvice(Graphics g){
         g.setColor(Color.black);
         List<String> advice = rules.weatherRules();
         g.setFont(standardFont(g));
+        g.setColor(Color.white);
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*3/5+(15*i));
+            g.drawString(advice.get(i), getWidth()*2/3, getHeight()*3/5+(17*i)+130);
         }
     }
 
@@ -185,10 +205,10 @@ public class Interface extends JPanel implements Observer, ActionListener {
         for (int i=0; i<control.objects.animalsList.size(); i++){
             List<String> advice = rules.animalRules(i);
             g.setFont(titleFont(g));
-            g.drawString(advice.get(0), 20, 20+(100*i));
+            g.drawString(advice.get(0), 20, 20+(100*i)+140);
             g.setFont(standardFont(g));
             for (int j=1; j<advice.size(); j++){
-                g.drawString(advice.get(j), 20, 20+(15*j)+(100*i));
+                g.drawString(advice.get(j), 20, 20+(15*j)+(100*i)+140);
             }
         }
 
@@ -209,13 +229,33 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     @Override
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g);
+        
+        g2d.setColor(new Color(249,249,249));
+        g2d.fillRect(650, 20, 330, 495);
         paintMap(g);
+        g2d.setColor(new Color(33, 150, 243));
+        g2d.fillRect(650, 210, 330, 70);
+        g2d.setColor(new Color(33, 150, 243));
+        g2d.fillRect(650, 515, 330, 100);
+        g2d.setColor(lightGrey);
+        g2d.drawRect(650, 20, 330, 595);
+        
+        g2d.setColor(new Color(33, 150, 243));
+        g2d.fillRect(400, 20, 250, 110);
+        g2d.setColor(lightGrey);
+        g2d.drawRect(400, 20, 250, 110);
+        
+        
+        
         paintWeatherAdvice(g);
         paintAnimalAdvice(g);
         paintWeather(g);
         paintGun(g);
     }
-
+    
+    
+    
 
 }
