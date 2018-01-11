@@ -77,8 +77,9 @@ public class Interface extends JPanel implements Observer, ActionListener {
         add(latField);
         add(newLoc);
         
-        
-
+        JTextArea sampleTextArea = new JTextArea ("Test");
+        JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        add(sampleScrollPane);
     }
 
     public Font standardFont(Graphics g){
@@ -182,6 +183,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     }
 
     public void paintGun(Graphics g){
+    
         g.setFont(titleFont(g));
         g.setColor(Color.white);
         String title = "Gun";
