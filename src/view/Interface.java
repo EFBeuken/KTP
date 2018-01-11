@@ -40,6 +40,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     Color lightGrey = new Color(222,222,222);
 
     public Interface(HuntingControl control, Rules rules){
+        
         this.control = control;
         this.rules = rules;
         control.addObserver(this);
@@ -49,7 +50,11 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         longField = new JTextField(control.current.getLongitude());
         latField = new JTextField(control.current.getLatitude());
-        newLoc = new JButton("Change Location");
+        newLoc = new JButton("Change Location");     
+        
+        longField.setLayout(null);
+        longField.setLocation(10, 35);
+        longField.setSize(70, 80);
 
         String options = "";
         File folder = new File("./data/person");
@@ -66,17 +71,19 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         newLoc.addActionListener(this);
         gunField.addActionListener(this);
-
+        
         add(gunField);
         add(longField);
         add(latField);
         add(newLoc);
+        
+        
 
     }
 
     public Font standardFont(Graphics g){
         g.setColor(Color.black);
-        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 12);
+        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 16);
         return font;
     }
 
@@ -88,7 +95,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
     public Font extraFont(Graphics g){
         g.setColor(grey);
-        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 16);
+        Font font = new Font("LucidaTypewriterRegular", Font.PLAIN, 12);
         return font;
     }
 
@@ -147,16 +154,16 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.drawString(title, 670, 251);
 
         String text = "";
-        text += "Longitude: " + current.getLongitude() + " \n";
-        text += "Latitude: " + current.getLatitude() + " \n";
-        text += "Wind Speed: " + current.getWindSpeed() + " \n";
-        text += "Wind Direction: " + current.getWindDirection() + " \n";
         text += "Description: " + current.getDescription() + "\n";
+        text += "Wind Speed: " + current.getWindSpeed() + " mph\n";
+        text += "Wind Direction: " + current.getWindDirection() + " \n";
         text += "Sunrise: " + current.getSunrise() + "\n";
         text += "Sunset: " + current.getSunset() + "\n";
         text += "Humidity: " + current.getHumidity() + " %\n";
         text += "Visibility: " + current.getVisibility() + " m\n";
         text += "CloudCover: " + current.getCloudCover() + " %\n";
+        text += "Longitude: " + current.getLongitude() + " \n";
+        text += "Latitude: " + current.getLatitude() + " \n";
         g.setFont(extraFont(g));
         multilinePrint(g, text, 660, 290);
 
@@ -178,7 +185,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setFont(titleFont(g));
         g.setColor(Color.white);
         String title = "Gun";
-        g.drawString(title, 410, 535);
+        g.drawString(title, 30, 50);
         Person person = control.objects.getPersonsList().get(control.getSelectPerson());
         String text = "";
         text += person.getGun() + "\n";
@@ -187,7 +194,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += "Dogs? " + person.getDog() + "\n";
         g.setFont(standardFont(g));
         g.setColor(Color.white);
-        multilinePrint(g, text, 410, 535);
+        multilinePrint(g, text, 30, 60);
     }
 
     public void paintWeatherAdvice(Graphics g){
@@ -205,10 +212,12 @@ public class Interface extends JPanel implements Observer, ActionListener {
         for (int i=0; i<control.objects.animalsList.size(); i++){
             List<String> advice = rules.animalRules(i);
             g.setFont(titleFont(g));
-            g.drawString(advice.get(0), 20, 20+(100*i)+140);
+            g.setColor(grey);
+            g.drawString(advice.get(0), 20, 20+(100*i)+160);
             g.setFont(standardFont(g));
             for (int j=1; j<advice.size(); j++){
-                g.drawString(advice.get(j), 20, 20+(15*j)+(100*i)+140);
+                g.setColor(grey);
+                g.drawString(advice.get(j), 20, 20+(15*j)+(100*i)+160);
             }
         }
 
@@ -238,14 +247,16 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g2d.setColor(new Color(33, 150, 243));
         g2d.fillRect(650, 210, 330, 70);
         g2d.setColor(new Color(33, 150, 243));
-        g2d.fillRect(650, 515, 330, 100);
+        g2d.fillRect(650, 515, 330, 110);
         g2d.setColor(lightGrey);
-        g2d.drawRect(650, 20, 330, 595);
-
+        g2d.drawRect(650, 20, 330, 605);
+        
         g2d.setColor(new Color(33, 150, 243));
-        g2d.fillRect(400, 515, 250, 100);
+        g2d.fillRect(20, 20, 630, 130);
         g2d.setColor(lightGrey);
-        g2d.drawRect(400, 515, 250, 110);
+        g2d.drawRect(20, 20, 315, 130);
+        g2d.setColor(lightGrey);
+        g2d.drawRect(335, 20, 315, 130);
 
 
 
