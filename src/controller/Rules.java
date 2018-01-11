@@ -35,14 +35,16 @@ public class Rules {
             advice.add("The wind is fine for hunting.");
         }
         //Wind Direction
-        if (Float.parseFloat(weather.getWindDirection()) > 315 && Float.parseFloat(weather.getWindDirection()) < 45){
-            advice.add("Do not sit facing North.");
-        } else  if (Float.parseFloat(weather.getWindDirection()) > 45 && Float.parseFloat(weather.getWindDirection()) < 135){
-            advice.add("Do not sit facing East.");
-        } else  if (Float.parseFloat(weather.getWindDirection()) > 135 && Float.parseFloat(weather.getWindDirection()) < 225){
-            advice.add("Do not sit facing South.");
-        } else{
-            advice.add("Do not sit facing West");
+        if(weather.getWindDirection() != null){
+            if (Float.parseFloat(weather.getWindDirection()) > 315 && Float.parseFloat(weather.getWindDirection()) < 45){
+                advice.add("Do not sit facing North.");
+            } else  if (Float.parseFloat(weather.getWindDirection()) > 45 && Float.parseFloat(weather.getWindDirection()) < 135){
+                advice.add("Do not sit facing East.");
+            } else  if (Float.parseFloat(weather.getWindDirection()) > 135 && Float.parseFloat(weather.getWindDirection()) < 225){
+                advice.add("Do not sit facing South.");
+            } else{
+                advice.add("Do not sit facing West");
+            }
         }
         //Temperature
         if (Float.parseFloat(weather.getTemperature()) > 25){
