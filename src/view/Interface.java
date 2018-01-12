@@ -52,7 +52,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         longField = new JTextField(control.current.getLongitude());
         latField = new JTextField(control.current.getLatitude());
         newLoc = new JButton("Change Location");
-        sampleTextArea = new JTextArea("text", 5, 50);
+        sampleTextArea = new JTextArea("text", 5, 55);
         gunField = new JComboBox(getGuns());
         gunField.setSelectedIndex(control.getSelectPerson());
 
@@ -72,7 +72,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(-265, 100, 0, 0);
+        gbc.insets = new Insets(-285, 100, 0, 0);
         add(locationSetting, gbc);
         
         
@@ -80,16 +80,16 @@ public class Interface extends JPanel implements Observer, ActionListener {
         gdc.gridx = 0;
         gdc.gridy = 0;
         locationSetting2.add(gunField, gdc);
-        gdc.insets = new Insets(-570, -420, 0, 0);
+        gdc.insets = new Insets(-590, -420, 0, 0);
         add(locationSetting2, gdc);
 
 		GridBagConstraints gtc = new GridBagConstraints();
         gtc.gridx = 0;
         gtc.gridy = 0;
         gtc.fill = GridBagConstraints.HORIZONTAL;
-        animalText.add(new JScrollPane(sampleTextArea), gtc);
-        gtc.insets = new Insets(-300, -280, 0, 0);
-        add(animalText, gtc);
+        //animalText.add(new JScrollPane(sampleTextArea), gtc);
+        gtc.insets = new Insets(-270, -330, 0, 0);
+        //add(animalText, gtc);
         
         //gbc.insets = new Insets(50, 50, 50, 50);
         //gbc.gridx++;
@@ -100,8 +100,9 @@ public class Interface extends JPanel implements Observer, ActionListener {
         //add(gunField);
         //add(newLoc);
 
-        //JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //add(sampleScrollPane);
+        JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        animalText.add(sampleScrollPane, gtc);
+        add(sampleScrollPane, gtc);
     }
 
     public String[] getGuns(){
