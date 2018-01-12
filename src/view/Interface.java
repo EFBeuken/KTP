@@ -8,9 +8,7 @@ import model.Weather;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,9 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.Graphics2D;
-
-import java.awt.GradientPaint;
 
 public class Interface extends JPanel implements Observer, ActionListener {
 
@@ -34,6 +29,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
     private JTextField longField;
     private JTextField latField;
     public JComboBox gunField;
+    public JTextArea sampleTextArea;
 
     Color grey = new Color(118, 118, 118);
     Color googleGrey = new Color(237,237,237);
@@ -47,15 +43,51 @@ public class Interface extends JPanel implements Observer, ActionListener {
         setBackground(googleGrey);
         setVisible(true);
         setOpaque(true);
+        setLayout(new GridBagLayout());
+
+        JPanel locationSetting = new JPanel(new GridBagLayout());
+        JPanel animalText = new JPanel(new GridBagLayout());
 
         longField = new JTextField(control.current.getLongitude());
         latField = new JTextField(control.current.getLatitude());
-        newLoc = new JButton("Change Location");     
-        
-        longField.setLayout(null);
-        longField.setLocation(10, 35);
-        longField.setSize(70, 80);
+        newLoc = new JButton("Change Location");
+        sampleTextArea = new JTextArea("text", 5, 20);
+        gunField = new JComboBox(getGuns());
+        gunField.setSelectedIndex(control.getSelectPerson());
 
+        newLoc.addActionListener(this);
+        gunField.addActionListener(this);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        locationSetting.add(longField, gbc);
+        gbc.gridx++;
+        locationSetting.add(latField, gbc);
+        gbc.gridx++;
+        locationSetting.add(newLoc, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(50, 0, 0, 0);
+        add(locationSetting, gbc);
+
+        //gbc.insets = new Insets(50, 50, 50, 50);
+        //gbc.gridx++;
+        //gbc.gridy = 0;
+        //gbc.fill = GridBagConstraints.BOTH;
+        //add(new JScrollPane(sampleTextArea), gbc);
+
+        //add(gunField);
+        //add(newLoc);
+
+        //JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //add(sampleScrollPane);
+    }
+
+    public String[] getGuns(){
         String options = "";
         File folder = new File("./data/person");
         File[] listOfFiles = folder.listFiles();
@@ -65,21 +97,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
             }
         }
         String[] optionsList = options.split(".txt");
-
-        gunField = new JComboBox(optionsList);
-        gunField.setSelectedIndex(control.getSelectPerson());
-
-        newLoc.addActionListener(this);
-        gunField.addActionListener(this);
-        
-        add(gunField);
-        add(longField);
-        add(latField);
-        add(newLoc);
-        
-        JTextArea sampleTextArea = new JTextArea ("Test");
-        JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        add(sampleScrollPane);
+        return optionsList;
     }
 
     public Font standardFont(Graphics g){

@@ -55,7 +55,7 @@ public class Rules {
             advice.add("The temperature is fine for hunting.");
         }
         //Visibility
-        if (Float.parseFloat(weather.getVisibility()) < 50){
+        if (Float.parseFloat(weather.getVisibility()) < 500){
             advice.add("Visibility is very poor.");
         } else if (weather.getDescription().contains("mist")){
             advice.add("Mist can hinder visibility.");
