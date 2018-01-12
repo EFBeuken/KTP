@@ -81,7 +81,7 @@ public class NewProfileFrame extends JFrame implements ActionListener {
             writer.write(dogField.getText() + "\n");
             writer.write(drivenField.getText() + "\n");
             writer.close();
-            JOptionPane.showMessageDialog(new JFrame(), "Saved!\\Please restart the program to see the new profile.", "Save",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Saved!\nPlease restart the program to see the new profile.", "Save",JOptionPane.INFORMATION_MESSAGE);
             control.objects = control.loadObjects();
             control.update();
             dispose();

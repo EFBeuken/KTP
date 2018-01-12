@@ -62,6 +62,7 @@ public class DeleteProfileFrame extends JFrame implements ActionListener {
                 Path deleteFile = Paths.get("./data/person/" + nameField.getSelectedItem() + ".txt");
                 try {
                     Files.deleteIfExists(deleteFile);
+                    JOptionPane.showMessageDialog(new JFrame(), "Deleted!\nPlease restart the program to remove the profile.", "Delete",JOptionPane.INFORMATION_MESSAGE);
                     control.objects = control.loadObjects();
                     control.update();
                     dispose();

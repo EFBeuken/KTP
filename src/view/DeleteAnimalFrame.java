@@ -61,6 +61,7 @@ public class DeleteAnimalFrame extends JFrame implements ActionListener {
                 Path deleteFile = Paths.get("./data/animal/" + typeField.getSelectedItem() + ".txt");
                 try {
                     Files.deleteIfExists(deleteFile);
+                    JOptionPane.showMessageDialog(new JFrame(), "Deleted!\nPlease restart the program to remove the animal.", "Delete",JOptionPane.INFORMATION_MESSAGE);
                     control.objects = control.loadObjects();
                     control.update();
                     dispose();
