@@ -84,6 +84,8 @@ public class Rules {
         Date date = new Date();
         Date currentTime, currentDay = null, sunrise, sunset, maleSeasonStart, maleSeasonEnd, femaleSeasonStart, femaleSeasonEnd;
         Boolean canHunt, canHuntMale, canHuntFemale;
+        Boolean huntingValue = true;
+
         try {
             currentTime = sdf.parse(sdf.format(date));
             currentDay = sdf2.parse(sdf2.format(date));
@@ -113,10 +115,13 @@ public class Rules {
                }
                if (!canHuntMale && !canHuntFemale) {
                    canHunt = false;
+                   huntingValue = false;
                    advice.add("This animal cannot be hunted.");
                } else if (!canHuntFemale){
+                   huntingValue = false;
                    advice.add("Females cannot be hunted.");
                } else if (!canHuntMale){
+                   huntingValue = false;
                    advice.add("Males cannot be hunted.");
                }
            } catch (ParseException ex){
@@ -126,6 +131,7 @@ public class Rules {
         // Energy in the gun
         if (Integer.parseInt(animal.getEnergy()) > Integer.parseInt(person.getEnergy())){
             advice.add("The gun selected doesn't have enough energy to kill this animal.");
+            huntingValue = false;
             canHunt = false;
         }
         if (canHunt) {
@@ -139,14 +145,20 @@ public class Rules {
                             advice.add("The sun has already set, it's time to go out and hunt.");
                         } else if (sunset.getTime() - currentTime.getTime() < 3600000) {
                             advice.add("Less than an hour until sunset, time to get ready to hunt.");
+                        } else {
+                            huntingValue = false;
+                            advice.add("Now is not a good time to hunt this animal.");
                         }
                     } else if (animal.getBestTime().contains("getting")) {
                         if (currentTime.after(sunset)) {
                             advice.add("It's already dark, not a good time to hunt this animal.");
-                        } else if (sunset.getTime() - currentTime.getTime() < 7200000) {
+                        } else if (currentTime.before(sunset) && sunset.getTime() - currentTime.getTime() < 7200000) {
                             advice.add("Less than an two hours until sunset, time to go out and hunt.");
-                        } else if (sunrise.getTime() - currentTime.getTime() < 7200000) {
+                        } else if (currentTime.before(sunrise) && sunrise.getTime() - currentTime.getTime() < 7200000) {
                             advice.add("Less than an two hours until sunrise, time to go out and hunt.");
+                        } else {
+                            huntingValue = false;
+                            advice.add("Now is not a good time to hunt this animal.");
                         }
                     }
                 } catch (ParseException ex) {
@@ -177,6 +189,7 @@ public class Rules {
                 }
             }
         }
+        advice.add(1, huntingValue.toString());
         advice.add("");
         return advice;
     }
