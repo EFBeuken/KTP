@@ -64,15 +64,18 @@ public class Interface extends JPanel implements Observer, ActionListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.PAGE_START;
         locationSetting.add(longField, gbc);
-        gbc.gridx++;
+        gbc.gridy++;
         locationSetting.add(latField, gbc);
-        gbc.gridx++;
+        gbc.gridy++;
         locationSetting.add(newLoc, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(50, 0, 0, 0);
+        gbc.insets = new Insets(-285, 100, 0, 0);
         add(locationSetting, gbc);
+        
+        
+        
 
         //gbc.insets = new Insets(50, 50, 50, 50);
         //gbc.gridx++;
@@ -277,6 +280,15 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g2d.drawRect(20, 20, 315, 130);
         g2d.setColor(lightGrey);
         g2d.drawRect(335, 20, 315, 130);
+        
+        
+        g.setFont(standardFont(g));
+        g.setColor(Color.white);
+        String longt = "Longitude:";
+        g.drawString(longt, 370, 67);
+        String lat = "Latitude:";
+        g.drawString(lat, 370, 87);
+        
 
 
 
