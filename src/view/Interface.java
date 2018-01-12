@@ -72,7 +72,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(-285, 100, 0, 0);
+        gbc.insets = new Insets(-265, 100, 0, 0);
         add(locationSetting, gbc);
         
         
@@ -80,7 +80,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         gdc.gridx = 0;
         gdc.gridy = 0;
         locationSetting2.add(gunField, gdc);
-        gdc.insets = new Insets(-590, -420, 0, 0);
+        gdc.insets = new Insets(-570, -420, 0, 0);
         add(locationSetting2, gdc);
 
 		GridBagConstraints gtc = new GridBagConstraints();
