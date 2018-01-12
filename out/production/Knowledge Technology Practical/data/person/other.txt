@@ -1,6 +1,0 @@
-other
-Sauer 101
-7.62-60
-500
-yes
-no
