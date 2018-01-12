@@ -86,7 +86,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(typeField.getText()+".txt")) {
-                JOptionPane.showMessageDialog(new JFrame(), "Another file exists with this name. Choose another file name.", "Dialog", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "Another file exists with this name. Choose another file name.", "New Animal", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
@@ -105,7 +105,7 @@ public class NewAnimalFrame extends JFrame implements ActionListener {
             writer.write(callersField.getText() + "\n");
             writer.write(environmentField.getText() + "\n");
             writer.close();
-            JOptionPane.showMessageDialog(new JFrame(), "Saved!", "Save",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Saved!\\Please restart the program to see the new animal.", "Save",JOptionPane.INFORMATION_MESSAGE);
             control.objects = control.loadObjects();
             control.update();
             dispose();

@@ -67,7 +67,7 @@ public class NewProfileFrame extends JFrame implements ActionListener {
         File[] listOfFiles = folder.listFiles();
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().equals(nameField.getText()+".txt")) {
-                JOptionPane.showMessageDialog(new JFrame(), "Another file exists with this name. Choose another file name.", "Dialog", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "Another file exists with this name. Choose another file name.", "New Profile", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
@@ -81,7 +81,7 @@ public class NewProfileFrame extends JFrame implements ActionListener {
             writer.write(dogField.getText() + "\n");
             writer.write(drivenField.getText() + "\n");
             writer.close();
-            JOptionPane.showMessageDialog(new JFrame(), "Saved!", "Dialog",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Saved!\\Please restart the program to see the new profile.", "Save",JOptionPane.INFORMATION_MESSAGE);
             control.objects = control.loadObjects();
             control.update();
             dispose();
