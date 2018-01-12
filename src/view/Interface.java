@@ -238,8 +238,10 @@ public class Interface extends JPanel implements Observer, ActionListener {
         for (int i=0; i<control.objects.animalsList.size(); i++){
             List<String> advice = rules.animalRules(i);
             g.setFont(titleFont(g));
-            if (advice.get(1).contains("true")){
+            if (advice.get(1).contains("0")){
                 g.setColor(Color.green);
+            } else if (advice.get(1).contains("1")){
+                g.setColor(Color.orange);
             } else {
                 g.setColor(Color.red);
             }
