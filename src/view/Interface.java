@@ -82,27 +82,6 @@ public class Interface extends JPanel implements Observer, ActionListener {
         locationSetting2.add(gunField, gdc);
         gdc.insets = new Insets(-590, -420, 0, 0);
         add(locationSetting2, gdc);
-
-		GridBagConstraints gtc = new GridBagConstraints();
-        gtc.gridx = 0;
-        gtc.gridy = 0;
-        gtc.fill = GridBagConstraints.HORIZONTAL;
-        //animalText.add(new JScrollPane(sampleTextArea), gtc);
-        gtc.insets = new Insets(-270, -330, 0, 0);
-        //add(animalText, gtc);
-        
-        //gbc.insets = new Insets(50, 50, 50, 50);
-        //gbc.gridx++;
-        //gbc.gridy = 0;
-        //gbc.fill = GridBagConstraints.BOTH;
-        //add(new JScrollPane(sampleTextArea), gbc);
-
-        //add(gunField);
-        //add(newLoc);
-
-        JScrollPane sampleScrollPane = new JScrollPane (sampleTextArea,     JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        animalText.add(sampleScrollPane, gtc);
-        add(sampleScrollPane, gtc);
     }
 
     public String[] getGuns(){
@@ -241,7 +220,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setFont(standardFont(g));
         g.setColor(Color.white);
         for (int i=0; i<advice.size(); i++){
-            g.drawString(advice.get(i), 660, 530+(17*i));
+            g.drawString(advice.get(i), 660, 500+(17*i));
         }
     }
 
@@ -255,11 +234,11 @@ public class Interface extends JPanel implements Observer, ActionListener {
             } else {
                 g.setColor(Color.red);
             }
-            g.drawString(advice.get(0), 20, 20+(100*i)+160);
+            g.drawString(advice.get(0), 40, 20+(100*i)+160);
             g.setFont(standardFont(g));
             g.setColor(grey);
             for (int j=2; j<advice.size(); j++){
-                g.drawString(advice.get(j), 20, 20+(15*(j-1))+(100*i)+160);
+                g.drawString(advice.get(j), 40, 20+(15*(j-1))+(100*i)+160);
             }
         }
 
@@ -282,16 +261,18 @@ public class Interface extends JPanel implements Observer, ActionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g);
-
+		
+		g2d.setColor(new Color(249,249,249));
+        g2d.fillRect(20, 150, 630, 495);
         g2d.setColor(new Color(249,249,249));
         g2d.fillRect(650, 20, 330, 495);
         paintMap(g);
         g2d.setColor(new Color(33, 150, 243));
         g2d.fillRect(650, 210, 330, 70);
         g2d.setColor(new Color(33, 150, 243));
-        g2d.fillRect(650, 515, 330, 110);
+        g2d.fillRect(650, 475, 330, 170);
         g2d.setColor(lightGrey);
-        g2d.drawRect(650, 20, 330, 605);
+        g2d.drawRect(650, 20, 330, 625);
         
         g2d.setColor(new Color(33, 150, 243));
         g2d.fillRect(20, 20, 630, 130);
@@ -307,6 +288,8 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.drawString(longt, 370, 67);
         String lat = "Latitude:";
         g.drawString(lat, 370, 87);
+        String prof = "Profile:";
+        g.drawString(prof, 190, 50);
         
 
 
