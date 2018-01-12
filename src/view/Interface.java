@@ -46,12 +46,13 @@ public class Interface extends JPanel implements Observer, ActionListener {
         setLayout(new GridBagLayout());
 
         JPanel locationSetting = new JPanel(new GridBagLayout());
+        JPanel locationSetting2 = new JPanel(new GridBagLayout());
         JPanel animalText = new JPanel(new GridBagLayout());
 
         longField = new JTextField(control.current.getLongitude());
         latField = new JTextField(control.current.getLatitude());
         newLoc = new JButton("Change Location");
-        sampleTextArea = new JTextArea("text", 5, 20);
+        sampleTextArea = new JTextArea("text", 5, 50);
         gunField = new JComboBox(getGuns());
         gunField.setSelectedIndex(control.getSelectPerson());
 
@@ -75,8 +76,21 @@ public class Interface extends JPanel implements Observer, ActionListener {
         add(locationSetting, gbc);
         
         
-        
+        GridBagConstraints gdc = new GridBagConstraints();
+        gdc.gridx = 0;
+        gdc.gridy = 0;
+        locationSetting2.add(gunField, gdc);
+        gdc.insets = new Insets(-590, -420, 0, 0);
+        add(locationSetting2, gdc);
 
+		GridBagConstraints gtc = new GridBagConstraints();
+        gtc.gridx = 0;
+        gtc.gridy = 0;
+        gtc.fill = GridBagConstraints.HORIZONTAL;
+        animalText.add(new JScrollPane(sampleTextArea), gtc);
+        gtc.insets = new Insets(-300, -280, 0, 0);
+        add(animalText, gtc);
+        
         //gbc.insets = new Insets(50, 50, 50, 50);
         //gbc.gridx++;
         //gbc.gridy = 0;
