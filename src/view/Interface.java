@@ -72,7 +72,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(-285, 100, 0, 0);
+        gbc.insets = new Insets(-280, 100, 0, 0);
         add(locationSetting, gbc);
         
         
@@ -80,7 +80,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         gdc.gridx = 0;
         gdc.gridy = 0;
         locationSetting2.add(gunField, gdc);
-        gdc.insets = new Insets(-590, -420, 0, 0);
+        gdc.insets = new Insets(-500, -560, 0, 0);
         add(locationSetting2, gdc);
     }
 
@@ -168,6 +168,15 @@ public class Interface extends JPanel implements Observer, ActionListener {
         g.setColor(Color.white);
         String title = current.getTemperature() + "\u00b0"+ "C";
         g.drawString(title, 670, 251);
+        g.setFont(extraFont(g));
+        String location;
+        if (current.getName()==null){
+            location = current.getCountryCode();
+        } else {
+            location = current.getName() + ", " + current.getCountryCode();
+        }
+        g.setColor(Color.white);
+        g.drawString(location, 670, 265);
 
         String text = "";
         text += "Description: " + current.getDescription() + "\n";
@@ -209,7 +218,7 @@ public class Interface extends JPanel implements Observer, ActionListener {
         text += person.getAmmunition() + "\n";
         text += "Driven? " + person.getDriven() + "\n";
         text += "Dogs? " + person.getDog() + "\n";
-        g.setFont(standardFont(g));
+        g.setFont(extraFont(g));
         g.setColor(Color.white);
         multilinePrint(g, text, 30, 60);
     }

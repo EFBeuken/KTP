@@ -1,6 +1,0 @@
-Sauer
-Sauer 101 Alaska
-7.62-60
-1500
-no
-yes

@@ -38,7 +38,7 @@ public class HuntingControl extends Observable implements Observer {
     }
 
     public Weather currentWeather(String longitude, String latitude){
-        Weather current = new Weather(null, null, null, null, null, null, null, null, null, null, null, null, null);
+        Weather current = new Weather(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
         current.setLongitude(longitude);
         current.setLatitude(latitude);
         String locURL = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=57115fa390cea73bc8f4803c8fea348d";
@@ -92,6 +92,12 @@ public class HuntingControl extends Observable implements Observer {
                 } else if (word.contains("sunrise")) {
                     word = word.replace("sunrise ", "");
                     current.setSunrise(UTCtoGMT(Long.parseLong(word)));
+                } else if (word.contains("country")){
+                    word =word.replace("country", "");
+                    current.setCountryCode(word);
+                } else if (word.contains("name")){
+                    word = word.replace("name", "");
+                    current.setName(word);
                 }
             }
             current.setDescription(desc);

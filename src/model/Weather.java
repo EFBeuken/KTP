@@ -26,8 +26,10 @@ public class Weather {
     private String humidity;
     private String visibility;
     private String cloudCover;
+    private String countryCode;
+    private String name;
 
-    public Weather(String icon, String longitude, String latitude, String windSpeed, String windDirection, String temperature, String moonPhase, String description, String sunrise, String sunset, String humidity, String visibility, String cloudCover) {
+    public Weather(String icon, String longitude, String latitude, String windSpeed, String windDirection, String temperature, String moonPhase, String description, String sunrise, String sunset, String humidity, String visibility, String cloudCover, String countryCode, String name) {
         this.icon = icon;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -41,6 +43,8 @@ public class Weather {
         this.humidity = humidity;
         this.visibility = visibility;
         this.cloudCover = cloudCover;
+        this.countryCode = countryCode;
+        this.name = name;
     }
 
     public String getIcon() {
@@ -145,5 +149,21 @@ public class Weather {
 
     public void setCloudCover(String cloudCover) {
         this.cloudCover = cloudCover;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
